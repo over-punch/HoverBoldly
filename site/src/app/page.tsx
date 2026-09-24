@@ -30,7 +30,7 @@ export default function Home() {
 			<Hero
 				eyebrow="reflow-free hover weight"
 				title={[{ text: "Bold on hover," }, { text: "Zero layout shift.", italic: true, subtle: true }]}
-				install="@liiift-studio/hoverboldly"
+				install="@overpunch/hoverboldly"
 				github="https://github.com/Liiift-Studio/HoverBoldly"
 				tech={["TypeScript", "Canvas measurement", "React + Vanilla JS"]}
 			>
@@ -70,7 +70,7 @@ export default function Home() {
 				<div className="flex flex-col gap-8 text-sm">
 					<div className="flex flex-col gap-3">
 						<p className="text-muted">Drop-in component</p>
-						<CodeBlock code={`import { BoldLockText } from '@liiift-studio/hoverboldly'
+						<CodeBlock code={`import { BoldLockText } from '@overpunch/hoverboldly'
 
 <BoldLockText
   normalWeight={300}
@@ -82,14 +82,14 @@ export default function Home() {
 					</div>
 					<div className="flex flex-col gap-3">
 						<p className="text-muted">Hook</p>
-						<CodeBlock code={`import { useBoldLock } from '@liiift-studio/hoverboldly'
+						<CodeBlock code={`import { useBoldLock } from '@overpunch/hoverboldly'
 
 const ref = useBoldLock({ normalWeight: 300, hoverWeight: 700 })
 <p ref={ref}>{children}</p>`} />
 					</div>
 					<div className="flex flex-col gap-3">
 						<p className="text-muted">Vanilla JS</p>
-						<CodeBlock code={`import { applyBoldLock } from '@liiift-studio/hoverboldly'
+						<CodeBlock code={`import { applyBoldLock } from '@overpunch/hoverboldly'
 
 const el = document.querySelector('p')
 const cleanup = applyBoldLock(el, { normalWeight: 300, hoverWeight: 700 })
@@ -124,7 +124,7 @@ cleanup()`} />
 			</section>
 
 			<PortsSection
-				npm="@liiift-studio/hoverboldly"
+				npm="@overpunch/hoverboldly"
 				bundle="hoverboldly"
 				attr="data-hoverboldly" figma="frozen"
 				framerComponent="HoverBoldly"

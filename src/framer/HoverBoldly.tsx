@@ -14,7 +14,7 @@ import { useEffect, useRef } from "react"
 import { addPropertyControls, ControlType, RenderTarget } from "framer"
 // Pin to a published version so shared instances stay stable. Bump when the core changes.
 // The core is framework-agnostic (operates on a DOM element), so no React externalisation is needed.
-import { applyBoldLock } from "https://esm.sh/@liiift-studio/hoverboldly@1.1.16"
+import { applyBoldLock } from "https://esm.sh/@overpunch/hoverboldly@1.1.16"
 
 /** Props surfaced to the Framer UI via addPropertyControls, plus base text styling.
  *  Option fields are declared explicitly so the component needs no type import over HTTP. */

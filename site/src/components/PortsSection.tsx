@@ -8,7 +8,7 @@ import CodeBlock from "./CodeBlock"
 type FigmaFidelity = "full" | "partial" | "frozen"
 
 interface PortsSectionProps {
-	/** npm package name for the Webflow embed, e.g. "@liiift-studio/floodtext". Omit if no Webflow port. */
+	/** npm package name for the Webflow embed, e.g. "@overpunch/floodtext". Omit if no Webflow port. */
 	npm?: string
 	/** Webflow bundle basename — served at dist/<bundle>.webflow.min.js, e.g. "floodtext". */
 	bundle?: string
@@ -34,7 +34,7 @@ const FIGMA_PLUGIN_URL = "https://github.com/Liiift-Studio/type-tools/tree/main/
 
 /**
  * Renders the no-code integration paths a tool ships. Pass only the props for the ports it has.
- * e.g. <PortsSection npm="@liiift-studio/floodtext" bundle="floodtext" attr="data-floodtext" framerComponent="FloodText" repo="Liiift-Studio/FloodText" figma="frozen" />
+ * e.g. <PortsSection npm="@overpunch/floodtext" bundle="floodtext" attr="data-floodtext" framerComponent="FloodText" repo="Liiift-Studio/FloodText" figma="frozen" />
  */
 export default function PortsSection({ npm, bundle, attr, framerComponent, repo, figma }: PortsSectionProps) {
 	const hasWebflow = !!(npm && bundle && attr)

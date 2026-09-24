@@ -1,5 +1,5 @@
 {
-	"name": "@liiift-studio/hoverboldly",
+	"name": "@overpunch/hoverboldly",
 	"version": "1.1.17",
 	"description": "Variable font weight hover and bold interactions without layout shift — wght increase with automatic wdth/tracking compensation",
 	"type": "module",

@@ -1,6 +1,6 @@
 # Hover Boldly
 
-[![npm](https://img.shields.io/npm/v/%40liiift-studio%2Fhoverboldly.svg)](https://www.npmjs.com/package/@liiift-studio/hoverboldly) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![part of liiift type-tools](https://img.shields.io/badge/liiift-type--tools-blueviolet)](https://github.com/Liiift-Studio/type-tools)
+[![npm](https://img.shields.io/npm/v/%40liiift-studio%2Fhoverboldly.svg)](https://www.npmjs.com/package/@overpunch/hoverboldly) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![part of liiift type-tools](https://img.shields.io/badge/liiift-type--tools-blueviolet)](https://github.com/Liiift-Studio/type-tools)
 
 Every browser reflows text when you hover to bold — words push down, lines shift. Bold Lock measures the exact width difference using Canvas `measureText`, then compensates with letter-spacing so the line never moves. One measurement pass on mount; zero reflow on hover.
 
@@ -8,7 +8,7 @@ Every browser reflows text when you hover to bold — words push down, lines shi
 
 *On hover, the naive row's right edge jumps +5.8px and pushes the rest of the line; Bold Lock holds the same width while the word gets bolder.*
 
-**[See it live → hoverboldly.com](https://hoverboldly.com)** · [npm](https://www.npmjs.com/package/@liiift-studio/hoverboldly) · [GitHub](https://github.com/Liiift-Studio/HoverBoldly)
+**[See it live → hoverboldly.com](https://hoverboldly.com)** · [npm](https://www.npmjs.com/package/@overpunch/hoverboldly) · [GitHub](https://github.com/Liiift-Studio/HoverBoldly)
 
 TypeScript · Canvas measurement · React + Vanilla JS · Zero runtime dependencies
 
@@ -19,7 +19,7 @@ TypeScript · Canvas measurement · React + Vanilla JS · Zero runtime dependenc
 ## Install
 
 ```bash
-npm install @liiift-studio/hoverboldly
+npm install @overpunch/hoverboldly
 ```
 
 ---
@@ -31,7 +31,7 @@ npm install @liiift-studio/hoverboldly
 ### React component
 
 ```tsx
-import { BoldLockText } from '@liiift-studio/hoverboldly'
+import { BoldLockText } from '@overpunch/hoverboldly'
 
 <BoldLockText normalWeight={300} hoverWeight={700} transitionDuration={150}>
   Hover over this text...
@@ -41,7 +41,7 @@ import { BoldLockText } from '@liiift-studio/hoverboldly'
 ### React hook
 
 ```tsx
-import { useBoldLock } from '@liiift-studio/hoverboldly'
+import { useBoldLock } from '@overpunch/hoverboldly'
 
 // Inside a React component:
 const ref = useBoldLock({ normalWeight: 300, hoverWeight: 700 })
@@ -55,7 +55,7 @@ The hook attaches all event listeners on mount and removes them on unmount or wh
 `applyBoldLock` attaches event listeners and returns a cleanup function.
 
 ```ts
-import { applyBoldLock } from '@liiift-studio/hoverboldly'
+import { applyBoldLock } from '@overpunch/hoverboldly'
 
 const el = document.querySelector('p')
 const cleanup = applyBoldLock(el, { normalWeight: 300, hoverWeight: 700 })
@@ -69,7 +69,7 @@ cleanup()
 For elements that use a CSS rule to apply bold, `applyBoldShift` pre-compensates with letter-spacing so there is no reflow when the style activates.
 
 ```ts
-import { applyBoldShift, removeBoldShift } from '@liiift-studio/hoverboldly'
+import { applyBoldShift, removeBoldShift } from '@overpunch/hoverboldly'
 
 const el = document.querySelector('p')
 applyBoldShift(el, { normalWeight: 400, boldWeight: 700 })
@@ -81,7 +81,7 @@ removeBoldShift(el)
 ### TypeScript
 
 ```ts
-import type { BoldLockOptions, BoldShiftOptions } from '@liiift-studio/hoverboldly'
+import type { BoldLockOptions, BoldShiftOptions } from '@overpunch/hoverboldly'
 
 const lockOpts: BoldLockOptions = { normalWeight: 300, hoverWeight: 700, mode: 'word' }
 const shiftOpts: BoldShiftOptions = { normalWeight: 400, boldWeight: 700 }

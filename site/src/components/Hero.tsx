@@ -3,9 +3,9 @@
 // drift-prone bits: the uppercase eyebrow, the MagnetChar-animated serif H1, the wrapping install
 // row, and the tech-chip line. Each tool's lede prose + any extras are passed as `children`, so
 // tool-specific content (cedars' ILT credit note, vfClamp's second paragraph, etc.) is preserved.
-// Synced by sync-sites.mjs — edit here, not in a submodule. Requires @liiift-studio/magnettype.
+// Synced by sync-sites.mjs — edit here, not in a submodule. Requires @overpunch/magnettype.
 import { Fragment, type ReactNode } from "react"
-import { MagnetChar } from "@liiift-studio/magnettype"
+import { MagnetChar } from "@overpunch/magnettype"
 import CopyInstall from "./CopyInstall"
 
 /** One line of the hero H1. */
@@ -28,7 +28,7 @@ interface HeroProps {
 	titleFontFamily?: string
 	/** opsz axis for the H1 static style; pass null to omit it (opszStepper's face has no opsz). Default 144. */
 	titleOpsz?: number | null
-	/** npm package for the install snippet, e.g. "@liiift-studio/magnettype". */
+	/** npm package for the install snippet, e.g. "@overpunch/magnettype". */
 	install: string
 	/** GitHub repository URL. */
 	github: string
