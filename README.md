@@ -1,14 +1,14 @@
 # Hover Boldly
 
-[![npm](https://img.shields.io/npm/v/%40liiift-studio%2Fhoverboldly.svg)](https://www.npmjs.com/package/@overpunch/hoverboldly) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![part of liiift type-tools](https://img.shields.io/badge/liiift-type--tools-blueviolet)](https://github.com/Liiift-Studio/type-tools)
+[![npm](https://img.shields.io/npm/v/%40overpunch%2Fhoverboldly.svg)](https://www.npmjs.com/package/@overpunch/hoverboldly) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![part of liiift type-tools](https://img.shields.io/badge/liiift-type--tools-blueviolet)](https://github.com/over-punch/type-tools)
 
 Every browser reflows text when you hover to bold — words push down, lines shift. Bold Lock measures the exact width difference using Canvas `measureText`, then compensates with letter-spacing so the line never moves. One measurement pass on mount; zero reflow on hover.
 
-![Two identical lines hovering the word "middle". The naive row uses :hover { font-weight: 700 } and its right edge shifts +5.8px, reflowing surrounding text. The Bold Lock row gets visibly bolder while its right edge stays put — 0.0px drift, same footprint.](https://raw.githubusercontent.com/Liiift-Studio/HoverBoldly/main/assets/compare-hover.png?v=1)
+![Two identical lines hovering the word "middle". The naive row uses :hover { font-weight: 700 } and its right edge shifts +5.8px, reflowing surrounding text. The Bold Lock row gets visibly bolder while its right edge stays put — 0.0px drift, same footprint.](https://raw.githubusercontent.com/over-punch/HoverBoldly/main/assets/compare-hover.png?v=1)
 
 *On hover, the naive row's right edge jumps +5.8px and pushes the rest of the line; Bold Lock holds the same width while the word gets bolder.*
 
-**[See it live → hoverboldly.com](https://hoverboldly.com)** · [npm](https://www.npmjs.com/package/@overpunch/hoverboldly) · [GitHub](https://github.com/Liiift-Studio/HoverBoldly)
+**[See it live → hoverboldly.com](https://hoverboldly.com)** · [npm](https://www.npmjs.com/package/@overpunch/hoverboldly) · [GitHub](https://github.com/over-punch/HoverBoldly)
 
 TypeScript · Canvas measurement · React + Vanilla JS · Zero runtime dependencies
 

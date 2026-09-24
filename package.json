@@ -78,10 +78,10 @@
 	"homepage": "https://hoverboldly.com",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Liiift-Studio/HoverBoldly.git"
+		"url": "git+https://github.com/over-punch/HoverBoldly.git"
 	},
 	"bugs": {
-		"url": "https://github.com/Liiift-Studio/HoverBoldly/issues"
+		"url": "https://github.com/over-punch/HoverBoldly/issues"
 	},
 	"sideEffects": false,
 	"publishConfig": {

@@ -16,7 +16,7 @@ interface PortsSectionProps {
 	attr?: string
 	/** Framer code component name, e.g. "FloodText". Omit when the tool has no Framer port. */
 	framerComponent?: string
-	/** GitHub "org/repo" used to link the Framer component source, e.g. "Liiift-Studio/FloodText". */
+	/** GitHub "org/repo" used to link the Framer component source, e.g. "over-punch/FloodText". */
 	repo?: string
 	/** Figma fidelity ("full" | "partial" | "frozen"). Omit when the tool isn't in the Figma plugin. */
 	figma?: FigmaFidelity
@@ -30,11 +30,11 @@ const FIGMA_NOTE: Record<FigmaFidelity, string> = {
 }
 
 /** URL of the aggregator Figma plugin (one plugin hosts every ported tool). */
-const FIGMA_PLUGIN_URL = "https://github.com/Liiift-Studio/type-tools/tree/main/packages/figma-plugin"
+const FIGMA_PLUGIN_URL = "https://github.com/over-punch/type-tools/tree/main/packages/figma-plugin"
 
 /**
  * Renders the no-code integration paths a tool ships. Pass only the props for the ports it has.
- * e.g. <PortsSection npm="@overpunch/floodtext" bundle="floodtext" attr="data-floodtext" framerComponent="FloodText" repo="Liiift-Studio/FloodText" figma="frozen" />
+ * e.g. <PortsSection npm="@overpunch/floodtext" bundle="floodtext" attr="data-floodtext" framerComponent="FloodText" repo="over-punch/FloodText" figma="frozen" />
  */
 export default function PortsSection({ npm, bundle, attr, framerComponent, repo, figma }: PortsSectionProps) {
 	const hasWebflow = !!(npm && bundle && attr)

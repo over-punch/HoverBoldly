@@ -1,6 +1,6 @@
 # Type Tools Submodule — Claude Instructions
 
-This repo is a git submodule of [`type-tools`](https://github.com/Liiift-Studio/type-tools). It follows a shared site-kit pattern managed from the parent repo.
+This repo is a git submodule of [`type-tools`](https://github.com/over-punch/type-tools). It follows a shared site-kit pattern managed from the parent repo.
 
 ---
 

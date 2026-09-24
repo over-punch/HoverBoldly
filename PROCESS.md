@@ -397,7 +397,7 @@ Before v1.0.0:
 ### Git remotes
 ```bash
 git remote add origin  git@github.com:quitequinn/<repo>.git
-git remote add deploy  git@github-liiift:Liiift-Studio/<repo>.git
+git remote add deploy  git@github-liiift:over-punch/<repo>.git
 ```
 
 ### Version bump commit (triggers Vercel)

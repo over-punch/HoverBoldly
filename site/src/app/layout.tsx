@@ -47,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 	return (
 		<html lang="en" className={`h-full antialiased ${inter.variable}`}>
 			<body className="min-h-full flex flex-col">
-				<SiteHeader current="hoverBoldly" githubUrl="https://github.com/Liiift-Studio/HoverBoldly" />{children}</body>
+				<SiteHeader current="hoverBoldly" githubUrl="https://github.com/over-punch/HoverBoldly" />{children}</body>
 		</html>
 	)
 }

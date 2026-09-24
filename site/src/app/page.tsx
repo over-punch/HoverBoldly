@@ -31,7 +31,7 @@ export default function Home() {
 				eyebrow="reflow-free hover weight"
 				title={[{ text: "Bold on hover," }, { text: "Zero layout shift.", italic: true, subtle: true }]}
 				install="@overpunch/hoverboldly"
-				github="https://github.com/Liiift-Studio/HoverBoldly"
+				github="https://github.com/over-punch/HoverBoldly"
 				tech={["TypeScript", "Canvas measurement", "React + Vanilla JS"]}
 			>
 				<p className="text-base leading-relaxed max-w-lg">
@@ -128,7 +128,7 @@ cleanup()`} />
 				bundle="hoverboldly"
 				attr="data-hoverboldly" figma="frozen"
 				framerComponent="HoverBoldly"
-				repo="Liiift-Studio/HoverBoldly"
+				repo="over-punch/HoverBoldly"
 			/>
 
 			<SiteFooter current="hoverBoldly" npmVersion={version} siteVersion={siteVersion} />
