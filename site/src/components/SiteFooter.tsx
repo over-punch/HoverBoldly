@@ -88,7 +88,7 @@ export default function SiteFooter({ current, npmVersion, siteVersion }: SiteFoo
 			<hr className="border-foreground/10" />
 			<div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 text-muted">
 				<a
-					href="https://liiift.studio"
+					href="https://overpunch.ca"
 					target="_blank"
 					rel="noopener noreferrer"
 					aria-label="Liiift Studio"
