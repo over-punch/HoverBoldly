@@ -403,7 +403,7 @@ git remote add deploy  git@github-liiift:over-punch/<repo>.git
 ### Version bump commit (triggers Vercel)
 ```bash
 # Edit package.json version manually, then:
-git -c user.name="Liiift" -c user.email="hello@liiift.studio" commit -m "v{new_version}"
+git -c user.name="Liiift" -c user.email="hello@overpunch.ca" commit -m "v{new_version}"
 git push deploy main
 git push origin main
 ```
