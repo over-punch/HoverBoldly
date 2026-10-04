@@ -13,7 +13,8 @@
 // memoised, and runs only at sync time to write static CSS — sites never recompute it.
 
 /** All tool IDs in canonical order. Append new tools at the end — earlier tools keep their colour
- *  (farthest-point only ever ADDS the next point; existing assignments never move). */
+ *  (farthest-point only ever ADDS the next point; existing assignments never move).
+ *  Swapping two IDs swaps exactly their two colours (vfClamp and stabilType were swapped, Oct 2026). */
 export const TOOL_IDS = [
 	'axisRhythm',
 	'fitFlush',
@@ -26,11 +27,11 @@ export const TOOL_IDS = [
 	'opticalMargin',
 	'ragtooth',
 	'speechType',
-	'stabilType',
+	'vfClamp',
 	'steadyGray',
 	'textBreath',
 	'typsettle',
-	'vfClamp',
+	'stabilType',
 	'wrapType',
 	'threadText',
 	'cedars',
