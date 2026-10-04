@@ -4,7 +4,7 @@
 //
 // The header makes the FAMILY the product: a "Type Tools ▾" menu drops the full tool grid so a
 // visitor can jump to any sibling from the top of any page. Left: the tool's wordmark. Right:
-// optional per-tool section anchors, the family switcher, and npm / GitHub for the current tool.
+// optional per-tool section anchors (a second row on small screens), the family switcher, and npm / GitHub for the current tool.
 // Themed per-tool via the family colour tokens, exactly like SiteFooter.
 'use client'
 
@@ -83,6 +83,19 @@ export default function SiteHeader({ current, sections = [], npmUrl, githubUrl, 
 					</nav>
 				</div>
 			</div>
+
+			{/* Small screens: section links move to a second row (the inline ones are sm+ only). */}
+			{sections.length > 0 && (
+				<div className="sm:hidden w-full px-6 border-t border-foreground/10">
+					<nav aria-label="Sections" className="mx-auto w-full max-w-2xl h-11 flex items-center gap-5 text-sm overflow-x-auto whitespace-nowrap" style={{ color: 'var(--foreground-muted)' }}>
+						{sections.map((s) => (
+							<a key={s.href} href={s.href} className="hover:text-[var(--foreground)]" style={{ color: 'inherit', textDecoration: 'none' }}>
+								{s.label}
+							</a>
+						))}
+					</nav>
+				</div>
+			)}
 
 			{/* Family panel — reuses the ToolDirectory grid (all tools, current highlighted). */}
 			{open && (
