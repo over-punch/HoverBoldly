@@ -10,6 +10,8 @@ Every browser reflows text when you hover to bold — words push down, lines shi
 
 **[See it live → hoverboldly.com](https://hoverboldly.com)** · [npm](https://www.npmjs.com/package/@overpunch/hoverboldly) · [GitHub](https://github.com/over-punch/HoverBoldly)
 
+**Research:** [*Weight Without Width*](https://hoverboldly.com/paper), a paper and talk on why hover states should change emphasis, not layout. Bold widened navigation labels a median 4.8% across 15 variable fonts; the grade axis changes weight with zero width change, but only 1 of the 15 ships it. ([slides](https://hoverboldly.com/talk) · [measurements](https://hoverboldly.com/paper/data))
+
 TypeScript · Canvas measurement · React + Vanilla JS · Zero runtime dependencies
 
 > **Requires a variable font with a `wght` axis** (or at least two real weights). Bold Lock drives `font-variation-settings`, so the line gets heavier without swapping to a separate bold face.
@@ -116,17 +118,17 @@ const shiftOpts: BoldShiftOptions = { normalWeight: 400, boldWeight: 700 }
 
 ## How it works
 
-In `'element'` mode, Canvas `measureText` reads the element's full text content at both weights once on mount. The width delta is distributed across character gaps as a negative letter-spacing, applied on `mouseenter` and reversed on `mouseleave` — total line width stays identical at both weights.
+In `'element'` mode, Canvas `measureText` reads the element's full text content at both weights once on mount (a `ResizeObserver` re-measures when the element resizes). The width delta is distributed across character gaps as a negative letter-spacing, applied on `mouseenter` and reversed on `mouseleave` — total line width stays identical at both weights.
 
 In `'word'` mode, each word is measured and compensated independently so individual words can hover without affecting their neighbours.
 
 Compensation is a Canvas-measured approximation tuned for the `wght` axis — only `wght` is compensated. Additional `axes` (e.g. `wdth`) and `falseSlant` change the lean or width but are not width-corrected, so keep their deltas small to stay imperceptible.
 
-Both modes respond to mouse, touch (`touchstart`/`touchend`), and keyboard (`focusin`/`focusout`), so the effect works on mobile and for keyboard navigation. `prefers-reduced-motion: reduce` disables the CSS transition, keeping the weight change instantaneous but still happening.
+`'element'` mode responds to mouse, touch (`touchstart`/`touchend`) and keyboard (`focusin`/`focusout`), so the effect works on mobile and for keyboard navigation. `'word'` mode responds to mouse and touch, and `'proximity'` mode to pointer movement only; neither listens for keyboard focus yet. `prefers-reduced-motion: reduce` disables the CSS transition, keeping the weight change instantaneous but still happening.
 
 `applyBoldShift` injects a scoped `<style>` rule targeting the element by a generated `data-bold-shift` attribute. Call `removeBoldShift(element)` to remove the injected `<style>` element and `data-bold-shift` attribute.
 
-**Line break safety:** The compensation is applied as `letter-spacing` at the element level (or per-word in `'word'` mode), not via line wrapping. Line breaks are the browser's natural layout and are unaffected by the weight change or its compensation.
+**Line break safety:** In `'element'` and `'word'` modes the compensation is applied as `letter-spacing`, not via line wrapping, so line breaks stay the browser's natural layout. `'proximity'` mode is the exception: it groups text into fixed lines (`nowrap` spans joined by `<br>`) so each line can be weighted by its distance from the cursor, and those lines do not re-wrap on resize.
 
 ---
 
