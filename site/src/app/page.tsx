@@ -1,4 +1,5 @@
 // page.tsx — hoverBoldly landing page
+import Link from "next/link"
 import Demo from "@/components/Demo"
 import Hero from "@/components/Hero"
 import CodeBlock from "@/components/CodeBlock"
@@ -40,7 +41,7 @@ export default function Home() {
 			</Hero>
 
 			{/* Demo */}
-			<section className="w-full max-w-2xl lg:max-w-5xl flex flex-col gap-4">
+			<section id="demo" className="scroll-mt-28 sm:scroll-mt-20 w-full max-w-2xl lg:max-w-5xl flex flex-col gap-4">
 				<h2 className="text-xs uppercase tracking-[0.18em] font-medium text-muted">Live demo — hover or tap the paragraph</h2>
 				<div className="rounded-xl -mx-8 px-8 py-8" style={{ background: "var(--panel)", overflow: 'hidden' }}>
 					<Demo />
@@ -48,17 +49,44 @@ export default function Home() {
 			</section>
 
 			{/* Explanation */}
-			<section className="w-full max-w-2xl lg:max-w-5xl flex flex-col gap-6">
+			<section id="problem" className="scroll-mt-28 sm:scroll-mt-20 w-full max-w-2xl lg:max-w-5xl flex flex-col gap-6">
 				<h2 className="text-xs uppercase tracking-[0.18em] font-medium text-muted">The problem with bold hover</h2>
 				<div className="prose-grid grid grid-cols-1 sm:grid-cols-2 gap-12 text-sm leading-relaxed">
 					<div className="flex flex-col gap-3">
 						<p className="font-semibold text-foreground text-base">Why text reflows</p>
-						<p>Bold glyphs are wider. When you change font-weight on hover, every character in the element grows slightly, words push into the next line, and the whole paragraph reflts. It&rsquo;s jarring and there&rsquo;s no CSS fix.</p>
+						<p>Bold glyphs are wider. When you change font-weight on hover, every character in the element grows slightly, words push into the next line, and the whole paragraph reflows. It&rsquo;s jarring, and CSS has no built-in fix: across 15 popular variable fonts, bold made navigation labels a median 4.8% wider.</p>
 					</div>
 					<div className="flex flex-col gap-3">
 						<p className="font-semibold text-foreground text-base">How we fix it</p>
-						<p>Canvas measureText gives us the exact advance width of each line at both weights. The difference becomes a negative letter-spacing compensation applied on hover, so total line width stays identical. One measurement pass on mount, zero reflow on hover.</p>
+						<p>Canvas measureText gives the advance width of the text at both weights, off screen. The difference, divided by the number of characters, becomes a negative letter-spacing applied on hover, so the width holds. Measure the whole element, each word, or each line in proximity mode. It approximates a grade axis for fonts that only have weight.</p>
 					</div>
+				</div>
+			</section>
+
+			{/* Research — the talk and paper behind the tool */}
+			<section id="research" className="scroll-mt-28 sm:scroll-mt-20 w-full max-w-2xl lg:max-w-5xl flex flex-col gap-6">
+				<h2 className="text-xs uppercase tracking-[0.18em] font-medium text-muted">The research</h2>
+				<p className="text-base text-muted leading-relaxed max-w-xl">
+					<em>Weight Without Width</em> — a talk and paper on why interaction states should change emphasis, not layout.
+				</p>
+				<div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+					{[
+						{ n: "+4.8%", d: "median width growth, Regular to Bold, across 15 fonts" },
+						{ n: "0.000 px", d: "width change across Roboto Flex’s whole grade range" },
+						{ n: "1 of 15", d: "fonts we measured that ship a grade axis" },
+						{ n: "2009", d: "when the question was first asked on Stack Overflow" },
+					].map((f) => (
+						<div key={f.d} className="flex flex-col gap-1 rounded-xl p-5" style={{ background: "var(--panel)" }}>
+							<span className="text-3xl" style={{ fontFamily: "var(--font-merriweather), serif", fontVariationSettings: '"wght" 300, "opsz" 72' }}>{f.n}</span>
+							<span className="text-xs text-muted leading-relaxed">{f.d}</span>
+						</div>
+					))}
+				</div>
+				<div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+					<Link href="/paper" className="underline underline-offset-2 hover:text-foreground">Read the paper</Link>
+					<Link href="/talk" className="text-muted hover:text-foreground transition-colors">Slides ↗</Link>
+					<Link href="/paper/data" className="text-muted hover:text-foreground transition-colors">Measurements ↗</Link>
+					<Link href="/talk/transcript" className="text-muted hover:text-foreground transition-colors">Transcript ↗</Link>
 				</div>
 			</section>
 

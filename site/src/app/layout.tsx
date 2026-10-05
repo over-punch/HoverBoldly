@@ -47,7 +47,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 	return (
 		<html lang="en" className={`h-full antialiased ${inter.variable}`}>
 			<body className="min-h-full flex flex-col">
-				<SiteHeader current="hoverBoldly" githubUrl="https://github.com/over-punch/HoverBoldly" />{children}</body>
+				<SiteHeader
+					current="hoverBoldly"
+					sections={[
+						{ label: "Demo", href: "/#demo" },
+						{ label: "Problem", href: "/#problem" },
+						{ label: "Research", href: "/#research" },
+						{ label: "Paper", href: "/paper" },
+					]}
+					npmUrl="https://www.npmjs.com/package/@overpunch/hoverboldly"
+					githubUrl="https://github.com/over-punch/HoverBoldly"
+				/>{children}</body>
 		</html>
 	)
 }
