@@ -1,0 +1,38 @@
+// Speaker script for the talk "Weight Without Width": one entry per slide, shared by the deck (presenter notes), the transcript page and the recording kit.
+
+/** One slide's script: its deck id, a human label, and the spoken text with [bracketed] cues for builds and cuts. */
+export interface ScriptEntry {
+	id: string
+	label: string
+	text: string
+}
+
+/** The script in slide order. */
+export const SCRIPT: ScriptEntry[] = [
+	{ id: 'cover', label: 'Weight Without Width', text: 'Two copies of the same menu. Each word gets bolder in turn. The top one shoves its neighbours along. The bottom one gets just as bold, and nothing moves. This talk is about the gap between those two rows.' },
+	{ id: 'hook', label: 'The problem', text: 'You have seen this everywhere. You hover a menu item, it turns bold, and the whole menu jumps. It happens in navigation bars, in tabs, in filter chips, in every list of links that uses weight to say you are here. [Next] Bold letters are wider than regular ones, so the word grows, and everything after it on the line moves to make room. Move the cursor along the menu and the menu moves with you.' },
+	{ id: 'history', label: 'Asked in 2009', text: 'This is not new. In February 2009 someone asked on Stack Overflow how to stop inline elements shifting when they turn bold on hover. [Next] The first answer, the same day: there is no way to avoid this. [Next] That question has been viewed more than 250,000 times.' },
+	{ id: 'hacks', label: 'The fixes are hacks', text: 'So the web invented workarounds. [Next] The popular one, first posted on Stack Overflow in 2013 and made famous by CSS-Tricks in 2020, hides a bold copy of every label in a pseudo-element, so the box is already wide enough for bold. It works for single-line labels. It duplicates content, and it needs care so screen readers do not read every label twice. [Next] Text-shadow fakes the boldness instead; even the people suggesting it call it uglier than real bold. [Next] And guessing a negative letter-spacing value works for one font, at one size, until someone changes the font.' },
+	{ id: 'measure', label: 'How much it moves', text: 'How big is the jump? We measured it. Fifteen popular variable fonts from Google Fonts, six navigation labels and one sentence, set at sixteen pixels the way a browser sets them, at weight 400 and weight 700. [Next] Going from Regular to Bold, labels got a median of 4.8 percent wider. The worst cases were over nine percent. Every font’s median went up.' },
+	{ id: 'families', label: 'Font by font', text: 'It depends on the design. [Next] Work Sans and Roboto barely move: about one percent. [Next] Inter and Montserrat sit near five. [Next] Open Sans and Rubik grow almost eight percent. In pixels, a label moves anywhere from two to nine, and a sentence up to thirty-three.' },
+	{ id: 'cls', label: 'It counts', text: 'Does it matter beyond looking clumsy? We hovered a bolding menu in Chrome and watched the browser’s own layout-shift reporting. [Next] It logged shifts, and did not mark them as user input. Google’s layout-shift score ignores shifts right after a click or a key press, but moving the pointer does not count as input. So hover shifts are eligible to count. The numbers are small. The real cost is the jump people see, on every hover.' },
+	{ id: 'grade', label: 'Grade', text: 'Type designers already solved this. [Next] Grade changes the thickness of the strokes without changing the width of the letters. Google’s own glossary says it was originally conceived for printed newspapers, to calibrate output from different presses, and that it changes weight without changing the layout. [Next] We checked. In Roboto Flex, moving the grade axis from its lightest to its heaviest changes the width of our labels by exactly zero pixels, at regular and at bold.' },
+	{ id: 'rare', label: 'One in fifteen', text: 'So use grade. [Next] Except of our fifteen fonts, one has a grade axis: Roboto Flex. The other fourteen can only get bolder by getting wider.' },
+	{ id: 'thesis', label: 'The principle', text: 'Here is the principle. Weight changes emphasis. Width changes layout. An interaction state, hover, focus, the current page, should change the first and never the second. Grade does that by design, wherever a font has it.' },
+	{ id: 'how', label: 'How hoverBoldly works', text: 'For the fonts without grade, we built hoverBoldly. [Next ×4] It measures the text at both weights off the page, in canvas. It takes the extra width, divides it by the number of characters, and tightens the letter-spacing by that amount, at the same moment the weight goes up. It works on a whole element, word by word, or as a field that follows the cursor. [Next] It is an approximation of grade, done in code: weight without width.' },
+	{ id: 'holds', label: 'Does it hold?', text: 'Does it hold? We measured our own fix the same way. Six fonts, six labels each, in Chrome. [Next] Without it, a label’s width changed by a median of three and a half pixels, and sweeping the pointer across a menu logged four to eight layout shifts. [Next] With hoverBoldly, the median change was zero, the largest was two hundredths of a pixel, and Chrome logged no layout shifts at all.' },
+	{ id: 'demo', label: 'Demo', text: 'Here it is. Full disclosure: hoverBoldly is ours, and it is free and open source. [Cut to demo: hover across the paragraph on hoverboldly.com, naive row then locked row.] The word gets bold. The line stays put.' },
+	{ id: 'limits', label: 'What it does not do', text: 'It has limits, and you should know them. It needs a variable font with a weight axis; static fonts cannot tighten while they get bolder. It tightens spacing by a few hundredths of an em, evenly, so it approximates grade rather than matching it. Keyboard focus is handled in the default element mode; keep a visible focus ring either way. And the cursor-proximity effect freezes line breaks while it runs.' },
+	{ id: 'objections', label: 'Objections', text: 'The objections are fair. Just use a colour change: you can, and often should, but sometimes the design calls for weight. The pseudo-element trick works: for many labels, yes, at the cost of duplicated content. Why add JavaScript: if your font and sizes are fixed, you can compute the offsets once and ship plain CSS. It is a few pixels: it is a few pixels on every hover, on every menu, since 2009.' },
+	{ id: 'ask', label: 'Three asks', text: 'Three asks. [Next] Type designers: ship a grade axis in your web families, with enough range to read as emphasis. [Next] Designers and developers: let weight change and width stay. Use grade where a font has it, measured compensation where it does not, and keep a visible focus ring. [Next] And the CSS working group: there is still no way to say emphasise this without moving it. We found no proposal. Someone should write one.' },
+	{ id: 'close', label: 'Close', text: 'Weight changes emphasis. Width changes layout. Keep them apart. Thank you.' },
+	{ id: 'about', label: 'Who we are', text: 'Who we are. We’re Overpunch. We’ve built websites for type foundries for over fifteen years, and we’re building Typetin, a self-serve storefront for independent foundries; the waitlist is at typetin.com. We also make type tools for the web, and hoverBoldly is one of twenty. The paper, the measurements and the code are at hoverboldly.com.' },
+]
+
+/** Script text keyed by slide id, for the deck's presenter notes. */
+export const SCRIPT_NOTES: Record<string, string> = Object.fromEntries(SCRIPT.map(e => [e.id, e.text]))
+
+/** Strips [bracketed] build and cut cues, leaving only the spoken words. */
+export function spoken(text: string): string {
+	return text.replace(/\s*\[[^\]]*\]\s*/g, ' ').replace(/\s+/g, ' ').trim()
+}
