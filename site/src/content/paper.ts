@@ -63,11 +63,11 @@ All 105 measurements are in the [data appendix](/paper/data).
 Fixed widths across styles are old. On the Linotype, a duplexed matrix carried two styles that had to share one width; regular and italic was the usual pair, but, as Craig Eliason put it on Typophile in 2013, "In some cases a bold, rather than an italic, was duplexed with the roman in Linotype matrices." Type designers later gave the idea names:
 
 - **Grades.** Font Bureau's David Berlow, on Typophile in 2005: "Grades started for me with the development of a Playboy Baskerville… When Poynter began, we had lots of discussions about grades." Grades were for printing conditions, not emphasis.
-- **Uniwidth.** Hrant Papazian, 2004: "I call that 'uniwidth'." Thomas Phinney replied: "It's pretty rare, really. And the bolder the bold weight is, the more divergent the two designs seem."
+- **Uniwidth.** Hrant Papazian, 2004: "I call that 'uniwidth'." Thomas Phinney replied: "It's pretty rare, really. And the bolder the bold weight is, the more divergent the two designs seem." By 2011–2012 members could point to commercial examples, such as FF Balance, whose roman weights all share one width, and the reason sounded like ours: switching weights in a document is useful because "it's nice to not have paragraphs reflow".
 - **Fixed-offset.** Papazian again, in 2013, on making a Light and Bold match: "what I call 'fixed-offset'… Which is where two fonts become uniwidth when a certain tracking value is applied." That is the same idea as measured compensation, applied by the type designer instead of at runtime.
 - **Superplexed.** Recursive (Arrow Type) is built so "every style takes up the exact same horizontal space, across all styles"; "the weight axis does not affect glyph width".
 
-Typophile threads are quoted from the community archive reconstructed by Simon Cozens and Dave Crossland ([typophile/typophile.github.io](https://github.com/typophile/typophile.github.io), threads 6607, 15204 and 100708).
+Typophile (2000–2015) is quoted from the archive Simon Cozens and Dave Crossland reconstructed from the Wayback Machine in January 2016 ([06b/typophile.github.io](https://github.com/06b/typophile.github.io), threads 6607, 15204, 77895, 91519 and 100708 in \`json/\`); Cozens published a rebuilt version in 2022 ([typophile/typophile.github.io](https://github.com/typophile/typophile.github.io)).
 
 Phinney's point is the trade-off this paper keeps returning to: the further weight moves, the harder it is to keep width without changing the letters.
 
@@ -149,6 +149,7 @@ Cumulative Layout Shift excludes shifts within 500 ms of user input ([web.dev](h
 | "The CSS hidden-copy trick works" | For nav labels, yes, and it is often the simpler choice. It reserves space at rest and doesn't suit words in running text. |
 | "Why add JavaScript?" | Use grade, width, the CSS trick or font choice where they fit. For a fixed font and size, per-label offsets can also be computed at build time and shipped as CSS. |
 | "Bold on hover is a bad pattern anyway" | Sometimes. Colour, underline and background are good signals, and many design systems use them. When a design does use weight, keep the width. |
+| "Just use a uniwidth family" | A real option when you can choose the font: Recursive is free, and FF Balance is one commercial example. Most sites can't change their brand font. |
 | "It's only a few pixels" | 2–9 px per label, on every hover, on every menu. |
 
 ## Recommendations
@@ -181,7 +182,7 @@ Cumulative Layout Shift excludes shifts within 500 ms of user input ([web.dev](h
 ## Sources
 
 - Stack Overflow, [Inline elements shifting when made bold on hover](https://stackoverflow.com/questions/556153/inline-elements-shifting-when-made-bold-on-hover), 2009 · [Bolding some text without changing its container's size](https://stackoverflow.com/questions/5687035), 2011
-- Typophile archive ([typophile/typophile.github.io](https://github.com/typophile/typophile.github.io)): "Normal/bold difference in width" (2004), "FontBureau Grades" (2005), "Hagmann Goes Uniwidth" (2013)
+- Typophile archive, 2016 reconstruction ([06b/typophile.github.io](https://github.com/06b/typophile.github.io); 2022 rebuild at [typophile/typophile.github.io](https://github.com/typophile/typophile.github.io)): "Normal/bold difference in width" (2004), "FontBureau Grades" (2005), "Consistent width across weights" (2011), "Different weights with equal width" (2012), "Hagmann Goes Uniwidth" (2013)
 - Arrow Type, [Recursive README](https://github.com/arrowtype/recursive)
 - Chris Coyier, [Bold on Hover… Without the Layout Shift](https://css-tricks.com/bold-on-hover-without-the-layout-shift/), CSS-Tricks, 2020
 - Google Fonts Knowledge, [Grade](https://fonts.google.com/knowledge/glossary/grade) · Google Fonts docs, [Grade](https://googlefonts.github.io/gf-docs/Grade/) · [catalogue metadata](https://fonts.google.com/metadata/fonts)
