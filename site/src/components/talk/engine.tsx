@@ -128,7 +128,7 @@ export function Reveal({ at, step, children, style }: { at: number; step: number
 /** OG-template bottom row: source chips left, page number right. */
 export function Footer({ left, n, total }: { left: ReactNode; n: number; total: number }) {
 	return (
-		<div className="vfd-rise" style={{ ...rise(650), position: 'absolute', left: 128, right: 128, bottom: 72, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 48, fontSize: 22, letterSpacing: '0.04em' }}>
+		<div data-slide-footer="" className="vfd-rise" style={{ ...rise(650), position: 'absolute', left: 128, right: 128, bottom: 72, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 48, fontSize: 22, letterSpacing: '0.04em' }}>
 			<p style={{ color: 'var(--t-muted)' }}>{left}</p>
 			<p style={{ color: 'var(--t-subtle)', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>{String(n).padStart(2, '0')} / {total}</p>
 		</div>
