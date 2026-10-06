@@ -35,6 +35,7 @@ export const TOOL_IDS = [
 	'wrapType',
 	'threadText',
 	'cedars',
+	'confettiText',
 ]
 
 // ── Tunables ───────────────────────────────────────────────────────────────
