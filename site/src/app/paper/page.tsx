@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import '../talk.css'
 import Prose, { slug } from '../../components/talk/Prose'
-import { FamiliesFigure, GradeFigure, MethodFigure } from '../../components/talk/Figures'
+import { FamiliesFigure, CompareFigure, MethodFigure } from '../../components/talk/Figures'
 import { PAPER_MD } from '../../content/paper'
 import SiteFooter from '../../components/SiteFooter'
 import { version } from '../../../../package.json'
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 /** Figure components available to {{figure:name}} slots in the paper. */
 const FIGURES = {
 	families: <FamiliesFigure />,
-	grade: <GradeFigure />,
+	compare: <CompareFigure />,
 	method: <MethodFigure />,
 }
 

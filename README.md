@@ -10,7 +10,7 @@ Every browser reflows text when you hover to bold — words push down, lines shi
 
 **[See it live → hoverboldly.com](https://hoverboldly.com)** · [npm](https://www.npmjs.com/package/@overpunch/hoverboldly) · [GitHub](https://github.com/over-punch/HoverBoldly)
 
-**Research:** [*Weight Without Width*](https://hoverboldly.com/paper), a paper and talk on why hover states should change emphasis, not layout. Bold widened navigation labels a median 4.8% across 15 variable fonts; the grade axis changes weight with zero width change, but only 1 of the 15 ships it. ([slides](https://hoverboldly.com/talk) · [measurements](https://hoverboldly.com/paper/data))
+**Research:** [*Weight Without Width*](https://hoverboldly.com/paper), a paper and talk on why hover states should change emphasis, not layout. Bold widened navigation labels a median 4.8% across 15 variable fonts; the grade axis changes weight with zero width change, but only 5 of the 544 variable Google Fonts with a weight axis ship it. The paper recommends grade first, then the width axis, then measured spacing. ([slides](https://hoverboldly.com/talk) · [measurements](https://hoverboldly.com/paper/data))
 
 TypeScript · Canvas measurement · React + Vanilla JS · Zero runtime dependencies
 

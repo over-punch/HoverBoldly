@@ -72,8 +72,8 @@ export default function Home() {
 				<div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
 					{[
 						{ n: "+4.8%", d: "median width growth, Regular to Bold, across 15 fonts" },
-						{ n: "0.000 px", d: "width change across Roboto Flex’s whole grade range" },
-						{ n: "1 of 15", d: "fonts we measured that ship a grade axis" },
+						{ n: "96", d: "of those 544 have a width axis, which can hold width too" },
+						{ n: "5 of 544", d: "variable Google Fonts with a weight axis that ship grade" },
 						{ n: "2009", d: "when the question was first asked on Stack Overflow" },
 					].map((f) => (
 						<div key={f.d} className="flex flex-col gap-1 rounded-xl p-5" style={{ background: "var(--panel)" }}>

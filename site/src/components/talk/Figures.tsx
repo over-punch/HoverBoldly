@@ -1,4 +1,4 @@
-// Figures for the "Weight Without Width" paper (family widths, weight vs grade, method), in the site's colour tokens; bars grow and items rise on scroll via the .fig-* classes in talk.css.
+// Figures for the "Weight Without Width" paper (family widths, real-font comparison, method), in the site's colour tokens; bars grow and items rise on scroll via the .fig-* classes in talk.css.
 import type { CSSProperties, ReactNode } from 'react'
 
 /** Shared caption under each figure. */
@@ -39,28 +39,15 @@ export function FamiliesFigure() {
 	)
 }
 
-/** Weight vs grade on the same word: bold widens the box, grade keeps it. */
-export function GradeFigure() {
-	const rows = [
-		{ label: 'Weight 400', style: { fontVariationSettings: '"wght" 400' }, note: 'baseline' },
-		{ label: 'Weight 700', style: { fontVariationSettings: '"wght" 700' }, note: 'wider: everything after it moves' },
-		{ label: 'Grade, heavier', style: { fontVariationSettings: '"wght" 400', WebkitTextStroke: '0.035em currentColor' } as CSSProperties, note: 'same width (illustration)' },
-	]
+/** Real-font comparison: Regular, plain bold, tracked bold, narrowed bold and grade, rendered in Chromium at 4× a 16 px label. */
+export function CompareFigure() {
 	return (
-		<div className="fig rounded-xl p-6 lg:p-8" style={{ background: 'var(--panel)' }}>
-			<FigTitle>Grade adds weight. Width stays.</FigTitle>
-			<div className="flex flex-col gap-4">
-				{rows.map((r, i) => (
-					<div key={r.label} className="fig-rise grid grid-cols-1 sm:grid-cols-[9rem_minmax(0,1fr)] gap-1 sm:gap-4 items-baseline" style={{ ['--r' as string]: `entry ${10 + i * 15}% entry 95%` } as CSSProperties}>
-						<span className="text-xs uppercase tracking-[0.18em] text-muted">{r.label}</span>
-						<span className="flex items-baseline gap-3 flex-wrap">
-							<span className="text-3xl lg:text-4xl" style={{ fontFamily: 'var(--font-merriweather), serif', ...r.style }}>Pricing</span>
-							<span className="text-xs text-muted">{r.note}</span>
-						</span>
-					</div>
-				))}
-			</div>
-			<Caption>In Roboto Flex, the GRAD axis (−200 to 150) changed measured width by 0.000 px for all seven test strings. The third row only illustrates the idea in Merriweather, which has no grade axis.</Caption>
+		<div className="fig flex flex-col gap-3">
+			{[['compare-os', 'Open Sans'], ['compare-rf', 'Roboto Flex']].map(([f, n], i) => (
+				// eslint-disable-next-line @next/next/no-img-element -- static figure renders; dimensions are fixed and small
+				<img key={f} className="fig-rise w-full h-auto rounded-xl" src={`/talk/${f}.png`} alt={`${n} "Documentation" at 4× a 16 px label: Regular; plain Bold (wider); Bold with tightened letter-spacing (same width, tighter spacing); Bold narrowed with the width axis (same width)${n === 'Roboto Flex' ? '; and Grade 150 (same width, natural spacing)' : ''}.`} style={{ background: '#fff', ['--r' as string]: `entry ${10 + i * 20}% entry 95%` } as CSSProperties} />
+			))}
+			<Caption>Rendered in Chromium with the real font files, opsz pinned to 16; letter-spacing from hoverBoldly’s formula, wdth from our width-axis experiment. Red line: the Regular width.</Caption>
 		</div>
 	)
 }
@@ -70,7 +57,7 @@ export function MethodFigure() {
 	const steps = [
 		['01', 'Measure', 'Width at both weights with canvas measureText, off screen: no reflow.'],
 		['02', 'Divide', 'Extra width ÷ number of characters.'],
-		['03', 'Tighten', 'Letter-spacing reduced by that amount.'],
+		['03', 'Tighten', 'Added to any letter-spacing you already set.'],
 		['04', 'Bolden', 'Weight increased at the same moment.'],
 	]
 	return (
