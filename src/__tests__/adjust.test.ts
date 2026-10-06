@@ -8,6 +8,8 @@ import {
 	removeBoldShift,
 	removeBoldLock,
 	getCleanHTML,
+	applyTextTransform,
+	compensatedSpacing,
 } from '../core/adjust'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -718,5 +720,42 @@ describe('applyBoldLock — element mode extended', () => {
 		el.dispatchEvent(new Event('touchstart'))
 		el.dispatchEvent(new Event('touchcancel'))
 		expect(el.style.letterSpacing).toBe('')
+	})
+})
+
+// ─── Authored tracking and text-transform ─────────────────────────────────────
+
+describe('applyTextTransform', () => {
+	it('matches CSS text-transform so canvas measures the rendered text', () => {
+		expect(applyTextTransform('Pricing', 'uppercase')).toBe('PRICING')
+		expect(applyTextTransform('PRICING', 'lowercase')).toBe('pricing')
+		expect(applyTextTransform('contact us', 'capitalize')).toBe('Contact Us')
+		expect(applyTextTransform('Docs', 'none')).toBe('Docs')
+	})
+})
+
+describe('authored letter-spacing', () => {
+	it('adds compensation to the element’s own tracking instead of replacing it', () => {
+		const el = document.createElement('a')
+		el.textContent = 'Pricing'
+		el.style.letterSpacing = '0.1em'
+		document.body.appendChild(el)
+		expect(compensatedSpacing(el, -0.03)).toMatch(/^calc\(.+ \+ -0\.03em\)$/)
+		el.remove()
+	})
+
+	it('restores the author’s inline letter-spacing on mouseleave (element mode)', () => {
+		const el = document.createElement('a')
+		el.textContent = 'Pricing'
+		el.style.letterSpacing = '0.1em'
+		document.body.appendChild(el)
+		const cleanup = applyBoldLock(el, { normalWeight: 400, hoverWeight: 700, transitionDuration: 0 })
+		el.dispatchEvent(new MouseEvent('mouseenter'))
+		expect(el.style.letterSpacing).toContain('calc(')
+		el.dispatchEvent(new MouseEvent('mouseleave'))
+		expect(el.style.letterSpacing).toBe('0.1em')
+		cleanup()
+		expect(el.style.letterSpacing).toBe('0.1em')
+		el.remove()
 	})
 })

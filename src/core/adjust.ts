@@ -25,7 +25,7 @@ export function getFontVariationSettings(el: HTMLElement): Record<string, number
  * Measure the rendered text width of an element at the given wght axis value.
  * Uses a shared canvas so the caller can pass one in to avoid repeated allocation.
  */
-export function measureAtWeight(el: HTMLElement, wght: number, canvas: HTMLCanvasElement): number {
+export function measureAtWeight(el: HTMLElement, wght: number, canvas: HTMLCanvasElement, breakLigatures = false): number {
 	const style = getComputedStyle(el)
 	const ctx = canvas.getContext('2d')
 	// Guard against null context — getContext('2d') can return null in some browser environments.
@@ -33,8 +33,36 @@ export function measureAtWeight(el: HTMLElement, wght: number, canvas: HTMLCanva
 	// Use numeric font-weight in the CSS font shorthand — this is valid and Canvas parses it correctly.
 	// The previous fvsString approach produced invalid CSS (e.g. "'wght' 700 18px Family") which
 	// Canvas silently rejected, causing both weights to measure identically and compensation to be 0.
-	ctx.font = `${wght} ${style.fontSize} ${style.fontFamily}`
-	return ctx.measureText((el.textContent ?? '').trim()).width
+	// Include font-style so italic labels measure as italic.
+	ctx.font = `${style.fontStyle === 'italic' ? 'italic ' : ''}${wght} ${style.fontSize} ${style.fontFamily}`
+	const text = applyTextTransform((el.textContent ?? '').trim(), style.textTransform)
+	// Any non-zero letter-spacing turns off optional ligatures (fi, ffi). The hover state always has
+	// letter-spacing, so measure it the same way: a tiny canvas letterSpacing, subtracted back out.
+	const tiny = 0.01
+	const c = ctx as CanvasRenderingContext2D & { letterSpacing?: string }
+	const canBreak = breakLigatures && 'letterSpacing' in c
+	if (canBreak) c.letterSpacing = `${tiny}px`
+	const width = ctx.measureText(text).width - (canBreak ? tiny * [...text].length : 0)
+	if (canBreak) c.letterSpacing = '0px'
+	return width
+}
+
+/** Applies CSS text-transform to a string so canvas measures what the page renders (e.g. uppercase nav labels). */
+export function applyTextTransform(text: string, transform: string): string {
+	if (transform === 'uppercase') return text.toUpperCase()
+	if (transform === 'lowercase') return text.toLowerCase()
+	if (transform === 'capitalize') return text.replace(/(^|\s)(\S)/g, (_, a: string, b: string) => a + b.toUpperCase())
+	return text
+}
+
+/**
+ * Builds the hover letter-spacing: the element's own tracking plus the compensation, so authored
+ * letter-spacing (e.g. 0.1em on an uppercase nav) is kept rather than replaced.
+ */
+export function compensatedSpacing(el: HTMLElement, compEm: number): string {
+	const base = getComputedStyle(el).letterSpacing
+	const baseValue = !base || base === 'normal' ? '0px' : base
+	return `calc(${baseValue} + ${compEm}em)`
 }
 
 /**
@@ -51,10 +79,14 @@ export function calcCompensation(
 	sharedCanvas?: HTMLCanvasElement,
 ): number {
 	const canvas = sharedCanvas ?? document.createElement('canvas')
-	const normalWidth = measureAtWeight(el, normalWeight, canvas)
-	const boldWidth = measureAtWeight(el, boldWeight, canvas)
+	// At rest, ligatures render unless the author already tracks the text; on hover they never do.
+	const ls = getComputedStyle(el).letterSpacing
+	const tracked = !!ls && ls !== 'normal' && parseFloat(ls) !== 0
+	const normalWidth = measureAtWeight(el, normalWeight, canvas, tracked)
+	const boldWidth = measureAtWeight(el, boldWeight, canvas, true)
 	const delta = boldWidth - normalWidth
-	const charCount = (el.textContent?.trim() ?? '').length
+	// Count code points, not UTF-16 code units, so an emoji counts once (letter-spacing applies per character).
+	const charCount = [...(el.textContent?.trim() ?? '')].length
 	if (charCount === 0) return 0
 	if (charCount <= 1) return 0
 	// Distribute the width delta across all charCount positions (letter-spacing applies after every char including the last)
@@ -186,9 +218,11 @@ export function applyBoldLock(
 
 		for (const { span, compEm } of wordData) {
 			const savedTransform = span.style.transform
+			const savedSpacing = span.style.letterSpacing
+			const hoverSpacing = compensatedSpacing(span, compEm)
 			const onEnter = () => {
 				span.style.fontVariationSettings = serializeFVS(buildHoverFVS(currentFvs, normalWeight, hoverWeight, options.axes))
-				span.style.letterSpacing = `${compEm}em`
+				span.style.letterSpacing = hoverSpacing
 				const skew = buildSkew(options.falseSlant)
 				if (skew) span.style.transform = skew
 				const props = ['font-variation-settings', 'letter-spacing']
@@ -197,7 +231,7 @@ export function applyBoldLock(
 			}
 			const onLeave = () => {
 				span.style.fontVariationSettings = serializeFVS(buildRestFVS(currentFvs, normalWeight, options.axes))
-				span.style.letterSpacing = ''
+				span.style.letterSpacing = savedSpacing
 				if (options.falseSlant) span.style.transform = buildSkew(options.falseSlant, 0) || savedTransform
 			}
 			span.addEventListener('mouseenter', onEnter)
@@ -338,6 +372,9 @@ export function applyBoldLock(
 		// Position cache — page-relative centres, invalidated on resize so scroll doesn't drift.
 		let lineCentersY: number[] = []
 		let cacheValid = false
+		// The container's own tracking, read once: line compensation is added to it, not substituted for it.
+		const baseLs = getComputedStyle(element).letterSpacing
+		const baseSpacing = !baseLs || baseLs === 'normal' ? '0px' : baseLs
 		// Observe the container element only — one target covers all geometry changes.
 		const cacheRo = new ResizeObserver(() => { cacheValid = false })
 		cacheRo.observe(element)
@@ -365,7 +402,7 @@ export function applyBoldLock(
 					lineSpan.style.fontVariationSettings = serializeFVS(
 						buildHoverFVS(currentFvs, normalWeight, hoverWeight, options.axes, strength),
 					)
-					lineSpan.style.letterSpacing = `${(lineCompensations[i] * strength).toFixed(5)}em`
+					lineSpan.style.letterSpacing = `calc(${baseSpacing} + ${(lineCompensations[i] * strength).toFixed(5)}em)`
 					if (options.falseSlant) {
 						const skew = buildSkew(options.falseSlant, strength)
 						lineSpan.style.transform = skew || ''
@@ -406,8 +443,10 @@ export function applyBoldLock(
 	const fontSize = parseFloat(getComputedStyle(element).fontSize)
 	const compensationEm = fontSize > 0 ? compensationPx / fontSize : 0
 	const savedTransform = element.style.transform
-	// Save any pre-existing inline FVS so cleanup can restore it rather than clearing to ''.
+	// Save any pre-existing inline FVS and letter-spacing so leave/cleanup restore them rather than clearing to ''.
 	const savedFontVariationSettings = element.style.fontVariationSettings
+	const savedLetterSpacing = element.style.letterSpacing
+	const hoverSpacing = compensatedSpacing(element, compensationEm)
 
 	// Compute the transition string once at setup — it never changes between hovers.
 	const transitionProps = ['font-variation-settings', 'letter-spacing']
@@ -416,7 +455,7 @@ export function applyBoldLock(
 
 	const onEnter = () => {
 		element.style.fontVariationSettings = serializeFVS(buildHoverFVS(currentFvs, normalWeight, hoverWeight, options.axes))
-		element.style.letterSpacing = `${compensationEm}em`
+		element.style.letterSpacing = hoverSpacing
 		const skew = buildSkew(options.falseSlant)
 		if (skew) element.style.transform = skew
 		element.style.transition = transitionValue
@@ -424,7 +463,7 @@ export function applyBoldLock(
 
 	const onLeave = () => {
 		element.style.fontVariationSettings = serializeFVS(buildRestFVS(currentFvs, normalWeight, options.axes))
-		element.style.letterSpacing = ''
+		element.style.letterSpacing = savedLetterSpacing
 		if (options.falseSlant) element.style.transform = buildSkew(options.falseSlant, 0) || savedTransform
 	}
 
@@ -487,7 +526,7 @@ export function applyBoldLock(
 		// Tear down the inner instance if there is one (keeps styles clean).
 		if (currentCleanup) { currentCleanup(); currentCleanup = null }
 		element.style.fontVariationSettings = savedFontVariationSettings
-		element.style.letterSpacing = ''
+		element.style.letterSpacing = savedLetterSpacing
 		element.style.transition = ''
 		element.style.transform = savedTransform
 		boldLockObservers.get(element)?.disconnect()
