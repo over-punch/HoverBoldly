@@ -11,7 +11,7 @@ export const TOOLS = [
 	{ name: "CEDARS+",        url: "https://cedarstype.com",                     id: "cedars",        desc: "Reads a CEDARS-style typographic profile from a font's outline geometry", short: "Type profile from geometry" },
 	{ name: "Confetti Text",  url: "https://confettitext.com",                   id: "confettiText",  desc: "Bursts your text into a confetti cannon made of its own letters",       short: "Letter confetti burst"  },
 	{ name: "Fit Flush",      url: "https://fit-flush.com",                      id: "fitFlush",      desc: "Expands tracking and axes to flush-fill a container",                  short: "Flush-fill container"   },
-	{ name: "Fit Width",      url: "https://fitwidth.com",                       id: "fitWidth",      desc: "Scales tracking and axes to fill the full display width",              short: "Fill display width"     },
+	{ name: "Fit Width",      url: "https://fitwidth.com",                       id: "fitWidth",      desc: "Fits a headline to its box: width axis first, then tracking or size",  short: "Fit a headline"         },
 	{ name: "Flood Text",     url: "https://floodtext.com",                      id: "floodText",     desc: "Animates variable font axes in waves across each character",           short: "Per-char wave"          },
 	{ name: "Glyph Shaper",   url: "https://glyphshaper.com",                   id: "glyphShaper",   desc: "Edit bezier glyph paths live via opentype.js",                         short: "Edit glyph paths"       },
 	{ name: "Hover Boldly",   url: "https://hoverboldly.com",                   id: "hoverBoldly",   desc: "Bolds text on hover without shifting surrounding layout",              short: "Bold, no shift"         },

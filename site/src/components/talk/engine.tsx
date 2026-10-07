@@ -185,10 +185,18 @@ function slideFromHash(count: number): number {
 	return Number.isFinite(n) ? Math.min(Math.max(n - 1, 0), count - 1) : 0
 }
 
-/** The full-viewport deck: scales a 1920×1080 stage, handles keys/clicks/swipes, cross-fades tool palettes. `css` adds the talk's own keyframes. */
-export function Deck({ slides, title, css = '' }: { slides: Slide[]; title: string; css?: string }) {
+/**
+ * The full-viewport deck: scales a 1920×1080 stage, handles keys/clicks/swipes, cross-fades tool palettes. `css` adds
+ * the talk's own keyframes. With `autoBuildMs`, each slide plays its builds on its own, that many ms apart, and one
+ * click or key press always moves to the next slide; adding `?manual` to the URL turns that off (the clip recorder
+ * steps the builds itself).
+ */
+export function Deck({ slides, title, css = '', autoBuildMs }: { slides: Slide[]; title: string; css?: string; autoBuildMs?: number }) {
 	const [index, setIndex] = useState(0)
 	const [step, setStep] = useState(0)
+	/** True when `?manual` is in the URL: builds advance by click even if autoBuildMs is set. */
+	const [manual, setManual] = useState(false)
+	const auto = !!autoBuildMs && autoBuildMs > 0 && !manual
 	const [scale, setScale] = useState(1)
 	const [showNotes, setShowNotes] = useState(false)
 
@@ -196,7 +204,8 @@ export function Deck({ slides, title, css = '' }: { slides: Slide[]; title: stri
 	useEffect(() => {
 		// Read now, before the hash-sync effect below rewrites it; apply on the next frame.
 		const fromHash = slideFromHash(slides.length)
-		const id = requestAnimationFrame(() => { setIndex(fromHash); setStep(0) })
+		const isManual = new URLSearchParams(window.location.search).has('manual')
+		const id = requestAnimationFrame(() => { setIndex(fromHash); setStep(0); setManual(isManual) })
 		return () => cancelAnimationFrame(id)
 	}, [slides.length])
 
@@ -211,15 +220,22 @@ export function Deck({ slides, title, css = '' }: { slides: Slide[]; title: stri
 	// Keep the hash in sync so a slide can be linked or reloaded.
 	useEffect(() => { window.history.replaceState(null, '', `#${index + 1}`) }, [index])
 
+	// Auto-build: play the slide's builds one after another, so the speaker never clicks for a build.
+	useEffect(() => {
+		if (!auto || step >= slides[index].steps) return
+		const id = setTimeout(() => setStep(step + 1), autoBuildMs)
+		return () => clearTimeout(id)
+	}, [auto, autoBuildMs, index, step, slides])
+
 	const next = useCallback(() => {
-		if (step < slides[index].steps) setStep(step + 1)
+		if (!auto && step < slides[index].steps) setStep(step + 1)
 		else if (index < slides.length - 1) { setIndex(index + 1); setStep(0) }
-	}, [index, step, slides])
+	}, [auto, index, step, slides])
 
 	const prev = useCallback(() => {
-		if (step > 0) setStep(step - 1)
+		if (!auto && step > 0) setStep(step - 1)
 		else if (index > 0) { setIndex(index - 1); setStep(slides[index - 1].steps) }
-	}, [index, step, slides])
+	}, [auto, index, step, slides])
 
 	useEffect(() => {
 		const onKey = (e: KeyboardEvent) => {
